@@ -1,11 +1,11 @@
 import { FaShoppingBag } from "react-icons/fa";
-const MenuItem = ({ item, handleNevigate }) => {
+const MenuItem = ({ item, handleNavigate }) => {
   console.log(item);
   return (
     <div
       class="card card-item"
       style={{ width: "100%" }}
-      onClick={() => handleNevigate(`/home/${item._id}`)}
+      onClick={() => handleNavigate(`/home/${item._id}`)}
     >
       <div className="card-top">
         <p className="discount-box">{item.Discount} OFF</p>

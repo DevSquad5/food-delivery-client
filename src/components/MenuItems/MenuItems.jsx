@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import Slider from "react-slick";
@@ -6,9 +6,13 @@ import { menuItemsWithCategory } from "../../APIRequest/APIRequest";
 import MenuItem from "./MenuItem";
 
 const MenuItems = () => {
+  let [searchKeyword, setSearchKeyword] = useState("0");
+
+  
   const { menuItemList } = useSelector((state) => state.menuItem);
+  
   useEffect(() => {
-    menuItemsWithCategory();
+    menuItemsWithCategory(searchKeyword);
   }, []);
 
   const navigate = useNavigate();
@@ -83,7 +87,7 @@ const MenuItems = () => {
     ],
   };
 
-  const handleNevigate = (loc) => {
+  const handleNavigate = (loc) => {
     navigate(loc);
   };
 
@@ -102,7 +106,7 @@ const MenuItems = () => {
               <MenuItem
                 key={menuItem._id}
                 item={menuItem}
-                handleNevigate={handleNevigate}
+                handleNavigate={handleNavigate}
               />
             ))}
           </Slider>
