@@ -94,6 +94,7 @@ const Hero = () => {
         errorToast("Something went wrong");
       });
   }, []);
+  
   return (
     <div className="hero">
       <div className="container-lg text-center">
