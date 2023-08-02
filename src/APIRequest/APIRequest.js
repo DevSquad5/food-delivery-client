@@ -21,10 +21,10 @@ export const registration = (data) => {
     });
 };
 
-export const menuItemsWithCategory = () => {
+export const menuItemsWithCategory = (searchKeyword) => {
   console.log("menuItemsWithCategory")
   axiosInstance
-    .get("/categoryWiseItems")
+    .get("/categoryWiseItems/" + searchKeyword)
     .then((res) => {
       console.log(res);
       if (res.status === 200 && res.data["data"].length > 0) {

@@ -58,7 +58,7 @@ const Menu = () => {
                   </li>
                   <li className="categorie-link">
                     <a href="#">
-                      Categores <FaAngleDown />
+                      Category <FaAngleDown />
                     </a>
                     <Categories />
                   </li>
