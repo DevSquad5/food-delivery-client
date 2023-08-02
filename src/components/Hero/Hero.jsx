@@ -96,6 +96,7 @@ const Hero = () => {
       });
   }, []);
 
+
   const searchHandler = () => {
     let getSearchInput = inputRef.value;
     isEmpty(getSearchInput)
