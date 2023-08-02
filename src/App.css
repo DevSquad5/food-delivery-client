@@ -330,6 +330,9 @@ svg {
   margin-top: 10px;
 }
 .card-item .card-body h5 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 1rem;
   font-weight: 600;
 }
@@ -339,13 +342,13 @@ svg {
   color: rgb(75, 88, 100);
 }
 
-.card .price {
+.price {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--secondary-color);
   margin-top: 5px;
 }
-.card .actual-price {
+.actual-price {
   font-size: 14px;
   font-weight: 600;
   color: #4b4542;
