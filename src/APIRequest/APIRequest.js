@@ -7,7 +7,6 @@ export const registration = (data) => {
   return axiosInstance
     .post("/registration", data)
     .then((res) => {
-      console.log(res);
       if (res.status === 200) {
         successToast(res.data.message);
         return true;
@@ -16,17 +15,14 @@ export const registration = (data) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       errorToast("Something went wrong! Try again.");
     });
 };
 
 export const menuItemsWithCategory = (searchKeyword) => {
-  console.log("menuItemsWithCategory")
   axiosInstance
     .get("/categoryWiseItems/" + searchKeyword)
     .then((res) => {
-      console.log(res);
       if (res.status === 200 && res.data["data"].length > 0) {
         store.dispatch(setMenuItemList(res.data["data"]));
       } else {

@@ -90,12 +90,9 @@ img {
   /* margin-left: 5px !important; */
   gap: 5px;
 }
-/* .slick-prev,
-.slick-next {
-  display: none !important;
-} */
-/* global css for slick slider end */
-
+.main-layout {
+  position: relative;
+}
 /* ==========Menu bar css start here====== */
 .header {
   position: relative;
@@ -276,6 +273,16 @@ svg {
 }
 /* ======== Main page hero ess end ======== */
 /* ======== Main page cagegory css start ======== */
+.category-wise-menu > .container-lg:first-child {
+  padding-top: 3rem;
+}
+.category-name img {
+  width: 30px;
+  height: 30px;
+}
+.category-name h3 {
+  font-size: 1.5rem;
+}
 .menu-item-container {
   background-color: var(--tarnary-color);
   padding: 23px 23px 23px 23px;
@@ -352,7 +359,6 @@ svg {
   font-size: 14px;
   font-weight: 600;
   color: #4b4542;
-  text-decoration: line-through;
 }
 .card svg {
   font-size: 20px;
