@@ -8,9 +8,8 @@ import MenuItem from "./MenuItem";
 const MenuItems = () => {
   let [searchKeyword, setSearchKeyword] = useState("0");
 
-  
   const { menuItemList } = useSelector((state) => state.menuItem);
-  
+
   useEffect(() => {
     menuItemsWithCategory(searchKeyword);
   }, []);
@@ -94,10 +93,10 @@ const MenuItems = () => {
   let content = "";
   if (menuItemList.length > 0) {
     content = menuItemList?.map((item) => (
-      <div className="container-lg py-5">
-        <div className="category-name d-flex align-items-center gap-3 mb-4">
+      <div className="container-lg pb-5" key={item._id}>
+        <div className="category-name d-flex align-items-center gap-3 mb-3">
           <img src="images/star.png" alt="" />
-          <h3>{item.ItemCategory}</h3>
+          <h3 className="text-capitalize">{item.ItemCategory}</h3>
         </div>
         <div className="menu-item-container position-relative">
           <div className="slide-overlay"></div>
@@ -116,7 +115,7 @@ const MenuItems = () => {
   } else {
     content = <div className="text-center py-5">No Data Found</div>;
   }
-  return <>{content}</>;
+  return <section className="category-wise-menu">{content}</section>;
 };
 
 export default MenuItems;

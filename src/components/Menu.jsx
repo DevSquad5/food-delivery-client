@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 import "../App.css";
 import { getLocation } from "../helper/SessionHelper";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -41,7 +42,7 @@ const Menu = () => {
               <div className="logo">
                 <img src="/images/logo.png" alt="logo" />
               </div>
-              <div className="location d-flex ">
+              <div className="location d-flex align-items-center">
                 {getLocation() ? (
                   <p>{`${getLocation().suburb} ${getLocation().city}-${
                     getLocation().postcode
@@ -54,10 +55,10 @@ const Menu = () => {
               <div className="main-menu">
                 <ul className="d-flex lg:gap-3">
                   <li>
-                    <a href="#">Home</a>
+                    <Link to="/">Home</Link>
                   </li>
                   <li className="categorie-link">
-                    <a href="#">
+                    <a href="#category">
                       Category <FaAngleDown />
                     </a>
                     <Categories />
