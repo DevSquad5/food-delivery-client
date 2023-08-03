@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import Slider from "react-slick";
 import { menuItemsWithCategory } from "../../APIRequest/APIRequest";
-import { isEmpty } from '../../helper/formValidation';
+import { isEmpty } from "../../helper/formValidation";
 import { errorToast } from "../../utils/TostMessage";
 import axiosInstance from "../../utils/axiosInstance";
 const Hero = () => {
@@ -96,15 +96,14 @@ const Hero = () => {
       });
   }, []);
 
-
   const searchHandler = () => {
     let getSearchInput = inputRef.value;
     isEmpty(getSearchInput)
-      ?  menuItemsWithCategory("0")
+      ? menuItemsWithCategory("0")
       : menuItemsWithCategory(getSearchInput);
   };
 
-  const handleItemClick =  (item) => {
+  const handleItemClick = (item) => {
     isEmpty(item) ? menuItemsWithCategory("0") : menuItemsWithCategory(item);
   };
   return (
@@ -121,7 +120,11 @@ const Hero = () => {
             aria-label="Username"
             aria-describedby="basic-addon1"
           />
-          <span className="input-group-text" id="basic-addon1"onClick={searchHandler}>
+          <span
+            className="input-group-text"
+            id="basic-addon1"
+            onClick={searchHandler}
+          >
             <FaSearch cursor={"pointer"} />
           </span>
         </div>
@@ -129,9 +132,12 @@ const Hero = () => {
           <Slider {...settings}>
             {categoryList.map((item) => (
               <div key={item._id}>
-                <div className="h-category-item" onClick={() => {
+                <div
+                  className="h-category-item"
+                  onClick={() => {
                     handleItemClick(item.ItemCategory);
-                  }}>
+                  }}
+                >
                   <div className="h-category-img">
                     <img src="images/category.png" alt="" />
                   </div>

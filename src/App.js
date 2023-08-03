@@ -3,8 +3,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import router from "./Router";
-import Footer from "./components/Footer";
-import Menu from "./components/Menu";
 function App() {
   return (
     <>
@@ -20,10 +18,10 @@ function App() {
         pauseOnHover
         theme="light"
       />
-      <Menu />
+      
       <RouterProvider router={router} />
       {/* <Main /> */}
-      <Footer />
+      
     </>
   );
 }
