@@ -6,6 +6,7 @@ import Cart from "../components/FloatingCart/Cart";
 import Footer from "../components/Footer";
 import Menu from "../components/Menu";
 
+
 const Layout = () => {
   return (
     <div className="main-layout">

@@ -105,6 +105,7 @@ const MenuItems = () => {
               <MenuItem
                 key={menuItem._id}
                 item={menuItem}
+                category={item.ItemCategory}
                 handleNavigate={handleNavigate}
               />
             ))}

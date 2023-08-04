@@ -1,5 +1,7 @@
 import { FaShoppingBag } from "react-icons/fa";
-const MenuItem = ({ item, handleNavigate }) => {
+const MenuItem = ({ item, category, handleNavigate }) => {
+  console.log(item);
+
   const discountPrice = item.UnitPrice - (item.UnitPrice * item.Discount) / 100;
 
   return (
@@ -18,9 +20,10 @@ const MenuItem = ({ item, handleNavigate }) => {
           </div>
         </div>
       </div>
-      <div className="card-body">
-        <h5 className="card-title">{item.ItemName}</h5>
-        <p className="cosine">category</p>
+      <div class="card-body">
+        <h5 class="card-title">{item.ItemName}</h5>
+        <p class="cosine">{category}</p>
+
         <div className="card-bottom d-flex justify-content-between">
           <p className="price">
             <span
@@ -40,5 +43,4 @@ const MenuItem = ({ item, handleNavigate }) => {
     </div>
   );
 };
-
 export default MenuItem;
