@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   changeQuantity,
@@ -11,9 +11,11 @@ const CartItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item?.quantity); // [1, function
   const dispatch = useDispatch();
   const handleQuantityIncrease = () => {
+    console.log(quantity, "quantity");
     dispatch(increaseQuantity({ _id: item._id }));
   };
   const handleQuantityDecrease = () => {
+    console.log(quantity, "quantity");
     if (quantity >= 1) {
       dispatch(
         decreaseQuantity({ _id: item._id, currentQuantity: quantity - 1 })
@@ -21,14 +23,14 @@ const CartItem = ({ item }) => {
     }
   };
   const handleOnChange = (e) => {
-    if (quantity >= 0) {
-      setQuantity(e.target.value);
+    console.log(e.target.value);
+    if (e.target.value >= 1) {
       dispatch(changeQuantity({ _id: item._id, quantity: e.target.value }));
     }
   };
-  //   useEffect(() => {
-  //     setQuantity(item?.quantity);
-  //   }, [item?.quantity]);
+  useEffect(() => {
+    setQuantity(item?.quantity);
+  }, [item?.quantity]);
   return (
     <div
       key={item._id}
