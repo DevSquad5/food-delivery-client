@@ -8,7 +8,7 @@ import {
 import IncreaseDecreaseButton from "../IncreaseDecrease/IncreaseDecreaseButton";
 
 const CartItem = ({ item }) => {
-  const [quantity, setQuantity] = useState(item?.quantity); // [1, function
+  const [quantity, setQuantity] = useState(item?.quantity || 0); // [1, function
   const dispatch = useDispatch();
   const handleQuantityIncrease = () => {
     console.log(quantity, "quantity");
@@ -23,9 +23,11 @@ const CartItem = ({ item }) => {
     }
   };
   const handleOnChange = (e) => {
-    console.log(e.target.value);
-    if (e.target.value >= 1) {
-      dispatch(changeQuantity({ _id: item._id, quantity: e.target.value }));
+    if (parseInt(e.target.value) >= 1) {
+      setQuantity(parseInt(e.target.value));
+      dispatch(
+        changeQuantity({ _id: item._id, quantity: parseInt(e.target.value) })
+      );
     }
   };
   useEffect(() => {

@@ -38,8 +38,10 @@ const MenuItemPageHero = () => {
         console.log(err);
       });
   }, [menuItemId]);
-  const discountPrice =
-    menuItem.UnitPrice - (menuItem.UnitPrice * menuItem.Discount) / 100;
+  const discountPrice = (
+    menuItem.UnitPrice -
+    (menuItem.UnitPrice * menuItem.Discount) / 100
+  ).toFixed(2);
 
   const addToCartHandler = () => {
     const isItemExist = cartItems?.find((i) => i._id === menuItem._id);

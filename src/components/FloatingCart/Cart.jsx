@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { clearCart } from "../../redux/state-slice/cartSlice";
 import "./Cart.css";
 import CartItem from "./CartItem";
@@ -50,7 +51,9 @@ const Cart = () => {
             <button className="btn me-2" onClick={clearAllHandler}>
               Clear All
             </button>
-            <button className="btn">Checkout</button>
+            <Link to="/checkout" className="btn" onClick={handleClose}>
+              Checkout
+            </Link>
           </div>
         </Offcanvas.Body>
       </Offcanvas>
