@@ -48,9 +48,8 @@ const Menu = () => {
                     getLocation().postcode
                   }`}</p>
                 ) : (
-                  <p>Select Your Location.</p>
+                  <p>Select Your Location</p>
                 )}
-                <FaAngleDown />
               </div>
               <div className="main-menu">
                 <ul className="d-flex lg:gap-3">

@@ -2,7 +2,10 @@ import { FaShoppingBag } from "react-icons/fa";
 const MenuItem = ({ item, category, handleNavigate }) => {
   console.log(item);
 
-  const discountPrice = item.UnitPrice - (item.UnitPrice * item.Discount) / 100;
+  const discountPrice = (
+    item.UnitPrice -
+    (item.UnitPrice * item.Discount) / 100
+  ).toFixed(2);
 
   return (
     <div
