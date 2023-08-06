@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import { getLocation } from "./helper/SessionHelper";
+import CheckoutPage from "./pages/CheckoutPage";
 import Home from "./pages/Home";
 import Main from "./pages/Main";
 import SingleMenuItemPage from "./pages/SingleMenuItemPage";
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/home/:menuItemId",
         element: <SingleMenuItemPage />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />,
       },
     ],
   },

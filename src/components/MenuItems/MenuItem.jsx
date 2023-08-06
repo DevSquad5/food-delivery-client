@@ -27,7 +27,7 @@ const MenuItem = ({ item, category, handleNavigate }) => {
         <h5 class="card-title">{item.ItemName}</h5>
         <p class="cosine">{category}</p>
 
-        <div className="card-bottom d-flex justify-content-between">
+        <div className="card-bottom d-flex justify-content-between align-items-center">
           <p className="price">
             <span
               className={`${
