@@ -139,7 +139,7 @@ const Hero = () => {
                   }}
                 >
                   <div className="h-category-img">
-                    <img src="images/category.png" alt="" />
+                    <img src={item.ItemImage} alt="" />
                   </div>
 
                   <p>{item.ItemCategory}</p>

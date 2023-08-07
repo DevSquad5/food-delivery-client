@@ -30,7 +30,7 @@ const Categories = () => {
             handleItemClick(item.ItemCategory);
           }}
         >
-          <img src="images/logo.png" alt="" />
+          <img src= {item.ItemImage }alt="" />
           <p>{item.ItemCategory}</p>
           <h3>{item.numberOfMenuItems}</h3>
         </div>
