@@ -2,17 +2,54 @@ import React, { useEffect, useState } from "react";
 import { FaCheck, FaMapMarkerAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { placeOrderReq } from "../../APIRequest/OrderAPIRequest";
 import { getLocation } from "../../helper/SessionHelper";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import "./Checkout.css";
 
 const Checkout = () => {
-  const { cartItems, totalPrice, numOfItems } = useSelector(
-    (state) => state.cart
-  );
-  const [location, setLocation] = useState(null);
+  const { token, user } = useAuthContext();
+  const { cartItems, totalPrice } = useSelector((state) => state.cart);
+
+  const [orderType, setOrderType] = useState("Home Delivery");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [street, setStreet] = useState("");
+  const [house, setHouse] = useState("");
+  const [floor, setFloor] = useState("");
+  const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("Cash On Delivery");
+
+  const [trmasAgreed, setTrmasAgreed] = useState(false);
+
+  const [discountAmount, setDiscountAmount] = useState(0);
+
   useEffect(() => {
-    setLocation(getLocation());
+    let discount = 0;
+    cartItems.forEach((item) => {
+      console.log(item);
+      discount += parseFloat(
+        ((item.UnitPrice * item.Discount) / 100) * item.quantity
+      );
+    });
+    setDiscountAmount(discount.toFixed(2));
+  }, [cartItems]);
+
+  useEffect(() => {
+    setDeliveryAddress(getLocation());
   }, []);
+
+  const handlePlaceOrder = async () => {
+    const orderData = {
+      userId: user._id,
+      orderItems: cartItems.map((item) => ({
+        itemId: item._id,
+        quantity: item.quantity,
+      })),
+      orderType,
+    };
+    const result = await placeOrderReq({});
+  };
+
   return (
     <div className="container-lg pb-5">
       <div className="row">
@@ -23,13 +60,25 @@ const Checkout = () => {
               <h4>Delivery Option</h4>
               <div className="delivery-option-form d-flex">
                 <div class="form-check">
-                  <input class="" type="radio" name="del-op" checked />
+                  <input
+                    onChange={(e) => setOrderType("Home Delivery")}
+                    type="radio"
+                    name="order-type"
+                    value={"Home Delivery"}
+                    checked={orderType === "Home Delivery"}
+                  />
                   <label class="form-check-label" for="flexRadioDefault1">
                     Home Delivery
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="" type="radio" name="del-op" />
+                  <input
+                    onChange={(e) => setOrderType(e.target.value)}
+                    type="radio"
+                    name="order-type"
+                    value={"Take Away"}
+                    checked={orderType === "Take Away"}
+                  />
                   <label class="form-check-label" for="flexRadioDefault2">
                     Take Away
                   </label>
@@ -45,7 +94,9 @@ const Checkout = () => {
                     type="text"
                     class="form-control"
                     placeholder="Set Location   "
-                    value={location?.suburb + " " + location?.city}
+                    value={
+                      deliveryAddress?.suburb + " " + deliveryAddress?.city
+                    }
                   />
                   <button class="btn z  input-group-text" id="basic-addon2">
                     Add Address
@@ -60,7 +111,7 @@ const Checkout = () => {
                 <div class="form-check justify-content-between align-items-center">
                   <div>
                     <h5>Selected Address</h5>
-                    <p>{`${location?.suburb} ${location?.city}`}</p>
+                    <p>{`${deliveryAddress?.suburb} ${deliveryAddress?.city}`}</p>
                   </div>
                   <input class="float-end" type="radio" />
                 </div>
@@ -75,6 +126,8 @@ const Checkout = () => {
                     type="text"
                     placeholder="Street Number"
                     class="form-control"
+                    onChange={(e) => setStreet(e.target.value)}
+                    value={street}
                   />
                 </div>
                 <div class="col-md-6">
@@ -82,10 +135,18 @@ const Checkout = () => {
                     type="text"
                     class="form-control"
                     placeholder="House Number"
+                    onChange={(e) => setHouse(e.target.value)}
+                    value={house}
                   />
                 </div>
                 <div class="col-md-6">
-                  <input type="text" placeholder="Floor" class="form-control" />
+                  <input
+                    type="text"
+                    placeholder="Floor"
+                    onChange={(e) => setFloor(e.target.value)}
+                    value={floor}
+                    class="form-control"
+                  />
                 </div>
                 <div class="col-12 my-4">
                   <textarea
@@ -103,13 +164,15 @@ const Checkout = () => {
             <div className="row">
               <div className="col-md-4">
                 <div className="sp-option">
-                  <button type="button" class="btn position-relative">
+                  <button
+                    type="button"
+                    class="btn position-relative"
+                    onClick={() => setPaymentMethod("Cash On Delivery")}
+                  >
                     <img src="/images/caseon.png" alt="" />
                     <span>Cash On Delivery</span>
-                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                      <span class="visually-hidden">
-                        <FaCheck />
-                      </span>
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                      <FaCheck />
                     </span>
                   </button>
                 </div>
@@ -119,10 +182,8 @@ const Checkout = () => {
                   <button type="button" class="btn position-relative">
                     <img src="/images/caseon.png" alt="" />
                     <span>Digital Payment</span>
-                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                      <span class="visually-hidden">
-                        <FaCheck />
-                      </span>
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                      <FaCheck />
                     </span>
                   </button>
                 </div>
@@ -132,10 +193,8 @@ const Checkout = () => {
                   <button type="button" class="btn position-relative">
                     <img src="/images/caseon.png" alt="" />
                     <span>Wallet Payment</span>
-                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                      <span class="visually-hidden">
-                        <FaCheck />
-                      </span>
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                      <FaCheck />
                     </span>
                   </button>
                 </div>
@@ -148,7 +207,10 @@ const Checkout = () => {
             <h3>Order Summary</h3>
             <div className="checkout-item">
               {cartItems.map((item) => (
-                <div className="cart-item d-flex gap-md-3 align-items-center mb-2">
+                <div
+                  className="cart-item d-flex gap-md-3 align-items-center mb-2"
+                  key={cartItems._id}
+                >
                   <div className="cart-item-image">
                     <img className="img-fluid" src={item.ItemImage} alt="" />
                   </div>
@@ -169,11 +231,11 @@ const Checkout = () => {
               </div>
               <div className="amount-item d-flex justify-content-between">
                 <p>Discount</p>
-                <h4>$235</h4>
+                <h4>${discountAmount}</h4>
               </div>
               <div className="amount-item d-flex justify-content-between">
                 <p>VAT/TAX (15% Excluded)</p>
-                <h4>$235</h4>
+                <h4>$0</h4>
               </div>
               <div className="amount-item d-flex justify-content-between">
                 <p>Delivery Fee</p>
@@ -192,14 +254,26 @@ const Checkout = () => {
           <div className="col-12">
             <div className="place-order-area text-center">
               <div class="form-check d-flex justify-content-center align-items-center  text-center">
-                <input class="form-check-input" type="checkbox" value="" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  onChange={() => setTrmasAgreed(!trmasAgreed)}
+                  checked={trmasAgreed}
+                />
                 <label class="form-check-label" for="flexCheckDefault">
                   I agree that placing the order places me under{" "}
                   <Link to="/terms-and-condition">Terms and Conditions</Link> &{" "}
                   <Link to="/privacy-policy">Privacy Policy</Link>
                 </label>
               </div>
-              <button className="btn">Place Order</button>
+              <button
+                className="btn"
+                disabled={!trmasAgreed}
+                onClick={handlePlaceOrder}
+              >
+                Place Order
+              </button>
             </div>
           </div>
         </div>

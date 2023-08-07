@@ -15,9 +15,10 @@ const initialState = {
 function calculateTotalPrice(cartItems) {
   let totalPrice = 0;
   cartItems?.forEach((item) => {
-    totalPrice += item.subtotal;
+    totalPrice += parseFloat(item.subtotal);
   });
-  return totalPrice;
+  console.log(typeof totalPrice);
+  return totalPrice.toFixed(2);
 }
 
 const cartSlice = createSlice({
@@ -66,8 +67,8 @@ const cartSlice = createSlice({
           i.quantity += 1;
           i.subtotal =
             i.Discount > 0
-              ? discountPrice * i.quantity
-              : i.UnitPrice * i.quantity;
+              ? (discountPrice * i.quantity).toFixed(2)
+              : (i.UnitPrice * i.quantity).toFixed(2);
           return i;
         }
         return i;
@@ -98,8 +99,8 @@ const cartSlice = createSlice({
             i.quantity -= 1;
             i.subtotal =
               i.Discount > 0
-                ? discountPrice * i.quantity
-                : i.UnitPrice * i.quantity;
+                ? (discountPrice * i.quantity).toFixed(2)
+                : (i.UnitPrice * i.quantity).toFixed(2);
             return i;
           }
           return i;

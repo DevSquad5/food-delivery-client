@@ -213,3 +213,22 @@ input[type="radio"]:checked::before {
 .total h4 {
   color: var(--tarnary-color);
 }
+.btn:disabled {
+  background-color: rgba(55, 65, 81, 0.12);
+  border-color: rgba(55, 65, 81, 0.12);
+  color: rgba(55, 65, 81, 0.26);
+}
+.sp-option .position-absolute svg {
+  color: #fff;
+  font-size: 10px;
+}
+
+.sp-option span.position-absolute.badge {
+  background: var(--tarnary-color);
+  height: 20px;
+  font-size: 10px;
+  width: 20px;
+  line-height: 20px;
+  text-align: center;
+  padding: 0;
+}

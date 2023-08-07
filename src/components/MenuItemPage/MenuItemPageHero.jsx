@@ -53,8 +53,8 @@ const MenuItemPageHero = () => {
           ...menuItem,
           subtotal:
             menuItem.Discount > 0
-              ? discountPrice * quantity
-              : menuItem.UnitPrice * quantity,
+              ? (discountPrice * quantity).toFixed(2)
+              : (menuItem.UnitPrice * quantity).toFixed(2),
           quantity: quantity,
         })
       );
