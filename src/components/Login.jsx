@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogin } from "../hooks/useLogin";
+import { errorToast } from "../utils/TostMessage";
 
 function Login({ closeModal }) {
+  const { token } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     await login(email, password);
-    if(!error && !isLoading) closeModal(false)
+    if (error !== null && !isLoading) {
+      errorToast(error);
+    }
+    console.log(error);
   };
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
   return (
     <div className="container-fluid custom-modal">
       <div className="card features-login-form p-5">
@@ -51,7 +64,7 @@ function Login({ closeModal }) {
             Login
           </button>
         </form>
-        {error && <div className="error">{error}</div>}
+        {/* {error && <div className="error">{error}</div>} */}
       </div>
     </div>
   );

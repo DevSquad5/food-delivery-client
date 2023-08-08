@@ -21,9 +21,9 @@ const MenuItem = ({ item, category, handleNavigate }) => {
           </div>
         </div>
       </div>
-      <div class="card-body">
-        <h5 class="card-title">{item.ItemName}</h5>
-        <p class="cosine">{category}</p>
+      <div className="card-body">
+        <h5 className="card-title">{item.ItemName}</h5>
+        <p className="cosine">{category}</p>
 
         <div className="card-bottom d-flex justify-content-between align-items-center">
           <p className="price">

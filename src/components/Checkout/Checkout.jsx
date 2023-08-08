@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCheck, FaMapMarkerAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { placeOrderReq } from "../../APIRequest/OrderAPIRequest";
 import { getLocation } from "../../helper/SessionHelper";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -11,8 +11,11 @@ const Checkout = () => {
   const { token, user } = useAuthContext();
   const { cartItems, totalPrice } = useSelector((state) => state.cart);
 
+  const navigate = useNavigate();
+
   const [orderType, setOrderType] = useState("Home Delivery");
-  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [address, setAddress] = useState("");
+  const [addressType, setAddressType] = useState("Home");
   const [street, setStreet] = useState("");
   const [house, setHouse] = useState("");
   const [floor, setFloor] = useState("");
@@ -35,19 +38,37 @@ const Checkout = () => {
   }, [cartItems]);
 
   useEffect(() => {
-    setDeliveryAddress(getLocation());
+    if (getLocation()) {
+      const { suburb, city } = getLocation() || {};
+      setAddress(suburb + " " + city);
+    }
   }, []);
 
   const handlePlaceOrder = async () => {
     const orderData = {
-      userId: user._id,
+      customerId: user._id,
       orderItems: cartItems.map((item) => ({
         itemId: item._id,
         quantity: item.quantity,
       })),
+
       orderType,
+      paymentMethod,
+      deliveryAddress: {
+        address,
+        address_type: addressType,
+        floor,
+        house,
+        lat: getLocation() ? getLocation().lat : "",
+        lng: getLocation() ? getLocation().lng : "",
+        road: street,
+      },
+      orderNote: note,
     };
-    const result = await placeOrderReq({});
+    const result = await placeOrderReq(orderData, token);
+    if (result) {
+      navigate("/");
+    }
   };
 
   return (
@@ -59,19 +80,22 @@ const Checkout = () => {
             <div className="delivery-option">
               <h4>Delivery Option</h4>
               <div className="delivery-option-form d-flex">
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    onChange={(e) => setOrderType("Home Delivery")}
-                    type="radio"
                     name="order-type"
+                    type="radio"
                     value={"Home Delivery"}
                     checked={orderType === "Home Delivery"}
+                    onChange={(e) => setOrderType(e.target.value)}
                   />
-                  <label class="form-check-label" for="flexRadioDefault1">
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexRadioDefault1"
+                  >
                     Home Delivery
                   </label>
                 </div>
-                <div class="form-check">
+                <div className="form-check">
                   <input
                     onChange={(e) => setOrderType(e.target.value)}
                     type="radio"
@@ -79,7 +103,10 @@ const Checkout = () => {
                     value={"Take Away"}
                     checked={orderType === "Take Away"}
                   />
-                  <label class="form-check-label" for="flexRadioDefault2">
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexRadioDefault2"
+                  >
                     Take Away
                   </label>
                 </div>
@@ -89,16 +116,16 @@ const Checkout = () => {
             <div className="delivery-address">
               <h4>Delivery Addresses</h4>
               <div className="add-address-from">
-                <div class="input-group mb-3">
+                <div className="input-group mb-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Set Location   "
-                    value={
-                      deliveryAddress?.suburb + " " + deliveryAddress?.city
-                    }
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    disabled={!(getLocation() === null)}
                   />
-                  <button class="btn z  input-group-text" id="basic-addon2">
+                  <button className="btn z  input-group-text" id="basic-addon2">
                     Add Address
                     <FaMapMarkerAlt />
                   </button>
@@ -108,12 +135,17 @@ const Checkout = () => {
                 <Link to="/info">View Saved Address</Link>.
               </div>
               <div className="address-selection-form">
-                <div class="form-check justify-content-between align-items-center">
+                <div className="form-check justify-content-between align-items-center">
                   <div>
                     <h5>Selected Address</h5>
-                    <p>{`${deliveryAddress?.suburb} ${deliveryAddress?.city}`}</p>
+                    <p>{address}</p>
                   </div>
-                  <input class="float-end" type="radio" />
+                  <input
+                    className="float-end"
+                    type="radio"
+                    value={address}
+                    checked={address}
+                  />
                 </div>
               </div>
             </div>
@@ -121,38 +153,40 @@ const Checkout = () => {
             <div className="additional-info">
               <h4>Additional Information</h4>
               <div className="additional-info-form row">
-                <div class="col-12 mb-4">
+                <div className="col-12 mb-4">
                   <input
                     type="text"
                     placeholder="Street Number"
-                    class="form-control"
-                    onChange={(e) => setStreet(e.target.value)}
+                    className="form-control"
                     value={street}
+                    onChange={(e) => setStreet(e.target.value)}
                   />
                 </div>
-                <div class="col-md-6">
+                <div className="col-md-6">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="House Number"
-                    onChange={(e) => setHouse(e.target.value)}
                     value={house}
+                    onChange={(e) => setHouse(e.target.value)}
                   />
                 </div>
-                <div class="col-md-6">
+                <div className="col-md-6">
                   <input
                     type="text"
                     placeholder="Floor"
-                    onChange={(e) => setFloor(e.target.value)}
                     value={floor}
-                    class="form-control"
+                    onChange={(e) => setFloor(e.target.value)}
+                    className="form-control"
                   />
                 </div>
-                <div class="col-12 my-4">
+                <div className="col-12 my-4">
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     placeholder="Note"
                     style={{ height: "100px" }}
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
                   ></textarea>
                 </div>
               </div>
@@ -166,12 +200,18 @@ const Checkout = () => {
                 <div className="sp-option">
                   <button
                     type="button"
-                    class="btn position-relative"
+                    className="btn position-relative"
                     onClick={() => setPaymentMethod("Cash On Delivery")}
                   >
                     <img src="/images/caseon.png" alt="" />
                     <span>Cash On Delivery</span>
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                    <span
+                      className={`${
+                        paymentMethod === "Cash On Delivery"
+                          ? "position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                          : "d-none"
+                      }`}
+                    >
                       <FaCheck />
                     </span>
                   </button>
@@ -179,10 +219,20 @@ const Checkout = () => {
               </div>
               <div className="col-md-4">
                 <div className="sp-option">
-                  <button type="button" class="btn position-relative">
+                  <button
+                    type="button"
+                    className="btn position-relative"
+                    onClick={() => setPaymentMethod("Digital Payment")}
+                  >
                     <img src="/images/caseon.png" alt="" />
                     <span>Digital Payment</span>
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                    <span
+                      className={`${
+                        paymentMethod === "Digital Payment"
+                          ? "position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                          : "d-none"
+                      }`}
+                    >
                       <FaCheck />
                     </span>
                   </button>
@@ -190,10 +240,20 @@ const Checkout = () => {
               </div>
               <div className="col-md-4">
                 <div className="sp-option">
-                  <button type="button" class="btn position-relative">
+                  <button
+                    type="button"
+                    className="btn position-relative"
+                    onClick={() => setPaymentMethod("Wallet Payment")}
+                  >
                     <img src="/images/caseon.png" alt="" />
                     <span>Wallet Payment</span>
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                    <span
+                      className={`${
+                        paymentMethod === "Wallet Payment"
+                          ? "position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                          : "d-none"
+                      }`}
+                    >
                       <FaCheck />
                     </span>
                   </button>
@@ -253,15 +313,15 @@ const Checkout = () => {
         <div className="row">
           <div className="col-12">
             <div className="place-order-area text-center">
-              <div class="form-check d-flex justify-content-center align-items-center  text-center">
+              <div className="form-check d-flex justify-content-center align-items-center  text-center">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="checkbox"
                   value=""
                   onChange={() => setTrmasAgreed(!trmasAgreed)}
                   checked={trmasAgreed}
                 />
-                <label class="form-check-label" for="flexCheckDefault">
+                <label className="form-check-label" htmlFor="flexCheckDefault">
                   I agree that placing the order places me under{" "}
                   <Link to="/terms-and-condition">Terms and Conditions</Link> &{" "}
                   <Link to="/privacy-policy">Privacy Policy</Link>
