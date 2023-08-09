@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { FaCheck, FaMapMarkerAlt } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { placeOrderReq } from "../../APIRequest/OrderAPIRequest";
 import { getLocation } from "../../helper/SessionHelper";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { clearCart } from "../../redux/state-slice/cartSlice";
 import "./Checkout.css";
 
 const Checkout = () => {
+  const dispatch = useDispatch();
   const { token, user } = useAuthContext();
-  const { cartItems, totalPrice } = useSelector((state) => state.cart);
+  const { cartItems, totalPrice, numOfItems } = useSelector(
+    (state) => state.cart
+  );
 
   const navigate = useNavigate();
 
-  const [orderType, setOrderType] = useState("Home Delivery");
+  const [orderType, setOrderType] = useState("delivery");
   const [address, setAddress] = useState("");
   const [addressType, setAddressType] = useState("Home");
   const [street, setStreet] = useState("");
   const [house, setHouse] = useState("");
   const [floor, setFloor] = useState("");
   const [note, setNote] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("Cash On Delivery");
+  const [paymentMethod, setPaymentMethod] = useState("cash_on_delivery");
 
   const [trmasAgreed, setTrmasAgreed] = useState(false);
 
@@ -44,29 +48,37 @@ const Checkout = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (numOfItems === 0) {
+      navigate("/");
+    }
+  }, [numOfItems, navigate]);
+
   const handlePlaceOrder = async () => {
     const orderData = {
       customerId: user._id,
+      orderType,
       orderItems: cartItems.map((item) => ({
         itemId: item._id,
         quantity: item.quantity,
       })),
 
-      orderType,
       paymentMethod,
       deliveryAddress: {
         address,
-        address_type: addressType,
+        addressType: addressType,
         floor,
         house,
-        lat: getLocation() ? getLocation().lat : "",
-        lng: getLocation() ? getLocation().lng : "",
+        lat: getLocation() ? getLocation().lat : 0,
+        lng: getLocation() ? getLocation().lng : 0,
         road: street,
       },
       orderNote: note,
     };
+    console.log(orderData);
     const result = await placeOrderReq(orderData, token);
     if (result) {
+      dispatch(clearCart());
       navigate("/");
     }
   };
@@ -84,8 +96,8 @@ const Checkout = () => {
                   <input
                     name="order-type"
                     type="radio"
-                    value={"Home Delivery"}
-                    checked={orderType === "Home Delivery"}
+                    value={"delivery"}
+                    checked={orderType === "delivery"}
                     onChange={(e) => setOrderType(e.target.value)}
                   />
                   <label
@@ -201,13 +213,13 @@ const Checkout = () => {
                   <button
                     type="button"
                     className="btn position-relative"
-                    onClick={() => setPaymentMethod("Cash On Delivery")}
+                    onClick={() => setPaymentMethod("cash_on_delivery")}
                   >
                     <img src="/images/caseon.png" alt="" />
                     <span>Cash On Delivery</span>
                     <span
                       className={`${
-                        paymentMethod === "Cash On Delivery"
+                        paymentMethod === "cash_on_delivery"
                           ? "position-absolute top-0 start-100 translate-middle badge rounded-pill"
                           : "d-none"
                       }`}

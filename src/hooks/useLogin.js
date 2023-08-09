@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { errorToast } from "../utils/TostMessage";
 import axiosInstance from "../utils/axiosInstance";
 import { useAuthContext } from "./useAuthContext";
 
@@ -12,11 +13,7 @@ export const useLogin = () => {
     setError(null);
     try {
       const response = await axiosInstance.post("/login", { email, password });
-      if (response.status === 401) {
-        // console.log(response.data.msg);
-        setIsLoading(false);
-        setError(response.data["data"].msg);
-      }
+
       if (response.status === 200 && response.data.status === "Success") {
         // save the user to local storage
         localStorage.setItem("user", JSON.stringify(response.data.data));
@@ -30,9 +27,14 @@ export const useLogin = () => {
 
         // update loading state
         setIsLoading(false);
+
       }
     } catch (error) {
-      setError("Something went wrong. Please try again later.");
+      if (error.response.status === 401) {
+        errorToast(error.response.data?.msg);
+      } else {
+        errorToast("Something went wrong. Try again");
+      }
       setIsLoading(false);
     }
   };

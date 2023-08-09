@@ -106,6 +106,33 @@ const Hero = () => {
   const handleItemClick = (item) => {
     isEmpty(item) ? menuItemsWithCategory("0") : menuItemsWithCategory(item);
   };
+
+  // decide what to render
+  let content;
+  if (categoryList.length > 0) {
+    content = categoryList.map((item) => (
+      <div key={item._id}>
+        <div
+          className="h-category-item"
+          onClick={() => {
+            handleItemClick(item.ItemCategory);
+          }}
+        >
+          <div className="h-category-img">
+            <img src={item.ItemImage} alt="" />
+          </div>
+
+          <p>{item.ItemCategory}</p>
+        </div>
+      </div>
+    ));
+  } else {
+    content = (
+      <div className="" role="status">
+        <span className="">Loading...</span>
+      </div>
+    );
+  }
   return (
     <div className="hero">
       <div className="container-lg text-center">
@@ -129,24 +156,7 @@ const Hero = () => {
           </span>
         </div>
         <div className="category">
-          <Slider {...settings}>
-            {categoryList.map((item) => (
-              <div key={item._id}>
-                <div
-                  className="h-category-item"
-                  onClick={() => {
-                    handleItemClick(item.ItemCategory);
-                  }}
-                >
-                  <div className="h-category-img">
-                    <img src={item.ItemImage} alt="" />
-                  </div>
-
-                  <p>{item.ItemCategory}</p>
-                </div>
-              </div>
-            ))}
-          </Slider>
+          <Slider {...settings}>{content}</Slider>
         </div>
       </div>
     </div>

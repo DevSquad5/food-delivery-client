@@ -1,9 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./Layout/Layout";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { getLocation } from "./helper/SessionHelper";
 import CheckoutPage from "./pages/CheckoutPage";
 import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
 import Main from "./pages/Main";
+import RegistrationPage from "./pages/RegistrationPage";
 import SingleMenuItemPage from "./pages/SingleMenuItemPage";
 const location = getLocation();
 const router = createBrowserRouter([
@@ -21,9 +24,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <CheckoutPage />,
+        element: (
+          <PrivateRoute>
+            <CheckoutPage />
+          </PrivateRoute>
+        ),
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/registration",
+    element: <RegistrationPage />,
   },
 ]);
 

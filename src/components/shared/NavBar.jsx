@@ -1,37 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import "../App.css";
-import { getLocation } from "../helper/SessionHelper";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useLogout } from "../hooks/useLogout";
-import Categories from "./Categories/Categories";
-import Login from "./Login";
-import RegisterModal from "./RegisterModal";
+import { getLocation } from "../../helper/SessionHelper";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
+import Categories from "../Categories/Categories";
 
-const Menu = () => {
+const NavBar = () => {
   const { user, token } = useAuthContext();
   const { logout } = useLogout();
-
-  const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [openRegisterModal, setOpenRegisterModal] = useState(false);
-
-  useEffect(() => {
-    if (user && token) {
-      setOpenLoginModal(false);
-      setOpenRegisterModal(false);
-    }
-  }, [user, token]);
-
-  const handleLoginModal = (event) => {
-    event.preventDefault();
-    setOpenLoginModal(true);
-  };
-
-  const handleRegisterModal = (event) => {
-    event.preventDefault();
-    setOpenRegisterModal(true);
-  };
 
   return (
     <>
@@ -69,13 +45,13 @@ const Menu = () => {
           <div className="col-md-4">
             {!user && !token ? (
               <div className="signin-area">
-                <button className="btn me-3" onClick={handleLoginModal}>
+                <Link to={"/login"} className="btn me-3">
                   Sign In
-                </button>
+                </Link>
 
-                <button className="btn" onClick={handleRegisterModal}>
+                <Link to={"/registration"} className="btn">
                   Sign Up
-                </button>
+                </Link>
               </div>
             ) : (
               <div className="signin-area">
@@ -87,12 +63,8 @@ const Menu = () => {
           </div>
         </div>
       </div>
-
-      {openLoginModal && <Login closeModal={setOpenLoginModal} />}
-
-      {openRegisterModal && <RegisterModal closeModal={setOpenRegisterModal} />}
     </>
   );
 };
 
-export default Menu;
+export default NavBar;

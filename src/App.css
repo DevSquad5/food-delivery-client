@@ -163,8 +163,8 @@ svg {
   margin-bottom: 10px;
   gap: 10px;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 6px 10px;
+  padding: 5px;
+  border-radius: 6px;
 }
 
 .category-item:hover {
@@ -174,8 +174,6 @@ svg {
 .category-item img {
   width: 35px;
   height: 35px;
-  background-color: var(--secondary-color);
-  padding: 5px;
 }
 
 .category-item h3 {
@@ -434,6 +432,21 @@ svg {
 
 .custom-modal .features-login-form {
   width: 370px;
+}
+
+.login,
+.registration-area {
+  background-color: #fff;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+}
+.login-form,
+.registration-form {
+  padding: 1.875rem;
+  box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px,
+    rgb(229, 234, 241) 0px 5px 20px;
+  border-radius: 10px;
 }
 
 /* ==========Banner css start here====== */

@@ -8,7 +8,10 @@ export const placeOrderReq = async (data, token) => {
         token: token,
       },
     });
-    if (response.status === 200 && response.data["data"].status === "success") {
+    console.log(response);
+    console.log(response.status === 201);
+    console.log(response.data["data"].status === "success");
+    if (response.status === 201 && response.data?.status === "success") {
       successToast("Order placed successfully!");
       return true;
     } else {

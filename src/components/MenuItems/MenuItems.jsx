@@ -12,7 +12,7 @@ const MenuItems = () => {
 
   useEffect(() => {
     menuItemsWithCategory(searchKeyword);
-  }, []);
+  }, [searchKeyword]);
 
   const navigate = useNavigate();
   const settings = {

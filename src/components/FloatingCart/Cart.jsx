@@ -20,7 +20,7 @@ const Cart = () => {
     dispatch(clearCart());
   };
   return (
-    <div className="cart-button-container">
+    <div className={`${numOfItems === 0 ? "d-none" : "cart-button-container"}`}>
       <button
         className="btn position-relative cart-button"
         onClick={handleShow}
