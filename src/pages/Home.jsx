@@ -58,7 +58,7 @@ const Home = () => {
               style={{ backgroundImage: `url(./images/banner.png)` }}
             >
               <div className="banner-content">
-                <h1>Online Food Delivery</h1>
+                <h1 className="pb-4">Online Food Delivery</h1>
                 <h6>Find Restaurants Near you</h6>
                 <div className="search-area mt-4">
                   <div className="d-flex">
@@ -153,15 +153,18 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="container pb-5 item-section">
-        <div className="row">
-          <div className="col-lg-4">
+      <div className="container pb-5 pt-5">
+        <div className="row g-4 justify-content-center">
+          <div className="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
             <img src="images/item_1.png" alt="img" />
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
             <img src="images/item_2.png" alt="img" />
           </div>
-          <div className="col-lg-4">
+          <div className="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
+            <img src="images/item_3.png" alt="img" />
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
             <img src="images/item_3.png" alt="img" />
           </div>
         </div>
@@ -176,7 +179,9 @@ const Home = () => {
                 <h4> Open your own restaurant </h4>
                 <p> Register as seller and open shop to start your business</p>
               </div>
-              <a href="#"> Register </a>
+              <button className="vendor_button">
+                <a href="#"> Register as an Owner </a>
+              </button>
             </div>
           </div>
 
@@ -185,9 +190,11 @@ const Home = () => {
               <img src="images/feature_2.png" alt="img" />
               <div className="feature-content">
                 <h4>Become a Delivery Man</h4>
-                <p> Register as delivery man and earn money </p>
+                <p> Register as server and earn money </p>
               </div>
-              <a href="#"> Register </a>
+              <button className="vendor_button">
+                <a href="#"> Register as a server </a>
+              </button>
             </div>
           </div>
         </div>

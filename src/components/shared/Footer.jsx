@@ -101,7 +101,7 @@ const Footer = () => {
             <div className="copyrigth-area">
               <p className="text-center mb-0">
                 {" "}
-                Copy Right &copy; Dev Squad; 2023{" "}
+                @Copyright&copy DevSquad; 2023{" "}
               </p>
             </div>
           </div>
