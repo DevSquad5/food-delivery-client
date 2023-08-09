@@ -36,11 +36,11 @@ const Menu = () => {
   return (
     <>
       <div className="container-lg header">
-        <div className="row py-2 align-items-center">
+        <div className="row py-3 px-0 align-items-center">
           <div className="col-md-8">
-            <div className="header-content d-flex align-items-center lg:gap-3">
+            <div className="header-content d-flex align-items-center lg:gap-2">
               <div className="logo">
-                <img src="/images/logo.png" alt="logo" />
+                <img src="/images/food_delivery_logo.png" alt="logo" />
               </div>
               <div className="location d-flex align-items-center">
                 {getLocation() ? (
@@ -48,7 +48,7 @@ const Menu = () => {
                     getLocation().postcode
                   }`}</p>
                 ) : (
-                  <p>Select Your Location</p>
+                  <p>Your Location</p>
                 )}
               </div>
               <div className="main-menu">
@@ -58,7 +58,7 @@ const Menu = () => {
                   </li>
                   <li className="categorie-link">
                     <a href="#category">
-                      Category <FaAngleDown />
+                      Category
                     </a>
                     <Categories />
                   </li>
