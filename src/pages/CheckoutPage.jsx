@@ -1,10 +1,13 @@
-import React from "react";
-import Checkout from "../components/Checkout/Checkout";
+import React, { Suspense } from "react";
+import LazyLoader from "../Layout/LazyLoader";
+const Checkout = React.lazy(() => import("../components/Checkout/Checkout"));
 
 const CheckoutPage = () => {
   return (
     <div className="checkout-page">
-      <Checkout />
+      <Suspense fallback={<LazyLoader />}>
+        <Checkout />
+      </Suspense>
     </div>
   );
 };
