@@ -24,12 +24,12 @@ class FormValidation {
     return false;
   }
 
-  validatePassword(password) {
-    if (password) {
-      return strongPasswordRegex.test(password);
-    }
-    return false;
-  }
+  // validatePassword(password) {
+  //   if (password) {
+  //     return strongPasswordRegex.test(password);
+  //   }
+  //   return false;
+  // }
 }
 
 export const {

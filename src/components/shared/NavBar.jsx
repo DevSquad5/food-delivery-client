@@ -1,4 +1,3 @@
-import { FaAngleDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { getLocation } from "../../helper/SessionHelper";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -18,7 +17,7 @@ const NavBar = () => {
               <div className="logo">
                 <img src="/images/food_delivery_logo.png" alt="logo" />
               </div>
-              <div className="location d-flex align-items-center">
+              <div className="location d-flex align-items-center ms-2">
                 {getLocation() ? (
                   <p>{`${getLocation().suburb} ${getLocation().city}-${
                     getLocation().postcode
@@ -33,9 +32,7 @@ const NavBar = () => {
                     <Link to="/">Home</Link>
                   </li>
                   <li className="categorie-link">
-                    <a href="#category">
-                      Category
-                    </a>
+                    <a href="#category">Category</a>
                     <Categories />
                   </li>
                 </ul>

@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { registration } from "../../APIRequest/APIRequest";
-import {
-  isEmpty,
-  validateEmail,
-  validateMobile,
-  validatePassword,
-} from "../../helper/formValidation";
+import { isEmpty, validateEmail } from "../../helper/formValidation";
 import { errorToast } from "../../utils/TostMessage";
 
 function Registration() {
@@ -25,10 +20,6 @@ function Registration() {
       errorToast("Last Name is required");
     } else if (!validateEmail(email)) {
       errorToast("Invalid Email");
-    } else if (!validateMobile(phoneNo)) {
-      errorToast("Invalid Phone No");
-    } else if (!validatePassword(password)) {
-      errorToast("Invalid Password");
     } else {
       const result = registration({
         firstName,
